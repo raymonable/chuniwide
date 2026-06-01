@@ -19,10 +19,6 @@ jobs:
         run: |
           $sha = git rev-parse --short HEAD
           "sha_short=$sha" >> $env:GITHUB_OUTPUT
-        
-      - name: Debug SHA
-        run: |
-          echo "Short SHA: '${{ steps.vars.outputs.sha_short }}'"
       
       - name: Pull Latest MSVC
         uses: TheMrMilchmann/setup-msvc-dev@v4
