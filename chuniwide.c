@@ -122,6 +122,12 @@ DWORD WINAPI Search(void* ptr) {
     rect.left = 0;
     rect.top = 0;
 
+#ifdef RESIZE_25_INCH
+    OutputDebugStringA("Chuniwide: Using 25 inch monitor size\n");
+#elif RESIZE_27_INCH
+    OutputDebugStringA("Chuniwide: Using 27 inch monitor size\n");
+#endif
+
     while (TRUE) {
         uint32_t gamePlayRead = *(uint32_t*)(addr);
 
@@ -129,7 +135,7 @@ DWORD WINAPI Search(void* ptr) {
         {
 #ifdef RESIZE_25_INCH
             SetWindowPos(hwnd, 0, rect.left - 288, rect.top - 324, 2496, 1404, SWP_SHOWWINDOW);
-#else
+#elif RESIZE_27_INCH
             SetWindowPos(hwnd, NULL, rect.left - 144, rect.top - 162, 2208, 1242, SWP_SHOWWINDOW);
 #endif
             gamePlayFlag = TRUE;
