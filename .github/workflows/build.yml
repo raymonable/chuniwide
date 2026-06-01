@@ -30,6 +30,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v2
+        if: github.event_name == 'push'
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
@@ -39,3 +40,11 @@ jobs:
           name: "${{ github.sha }}"
           target_commitish: "${{ github.sha }}"
           make_latest: true
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v5
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'repository_dispatch'
+        with:
+          path: build/Release/*.dll
+          name: chuniwide
+    
