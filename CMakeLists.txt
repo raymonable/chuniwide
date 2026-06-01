@@ -11,8 +11,20 @@ endif()
 
 add_library(chuniwide OBJECT chuniwide.c)
 
+# Zydis
+
+set(ZYDIS_FEATURE_ENCODER OFF CACHE BOOL "" FORCE)
+set(ZYDIS_BUILD_SHARED_LIB OFF CACHE BOOL "" FORCE)
+
+add_subdirectory(zydis)
+target_link_libraries(chuniwide PUBLIC Zydis::Zydis)
+
+# Add screen sizes
+
 add_library(chuniwide_25inch SHARED $<TARGET_OBJECTS:chuniwide>)
 target_compile_definitions(chuniwide_25inch PUBLIC RESIZE_25_INCH)
+target_link_libraries(chuniwide_25inch PUBLIC Zydis::Zydis)
 
 add_library(chuniwide_27inch SHARED $<TARGET_OBJECTS:chuniwide>)
-target_compile_definitions(chuniwide_25inch PUBLIC RESIZE_27_INCH)
+target_compile_definitions(chuniwide_27inch PUBLIC RESIZE_27_INCH)
+target_link_libraries(chuniwide_27inch PUBLIC Zydis::Zydis)
