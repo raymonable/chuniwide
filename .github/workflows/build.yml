@@ -15,7 +15,14 @@ jobs:
           submodules: recursive
       - name: Get Short SHA
         id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        shell: pwsh
+        run: |
+          $sha = git rev-parse --short HEAD
+          "sha_short=$sha" >> $env:GITHUB_OUTPUT
+        
+      - name: Debug SHA
+        run: |
+          echo "Short SHA: '${{ steps.vars.outputs.sha_short }}'"
       
       - name: Pull Latest MSVC
         uses: TheMrMilchmann/setup-msvc-dev@v4
