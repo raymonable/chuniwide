@@ -1,0 +1,41 @@
+name: build
+
+on:
+  push:
+    paths:
+      - '**.c'
+      - '**.h'
+      - '.github/workflows/build.yml'
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-msvc:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      
+      - name: Pull Latest MSVC
+        uses: TheMrMilchmann/setup-msvc-dev@v4
+        with:
+          arch: x86
+
+      - name: Build using CMake
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A Win32
+          cmake --build build --config Release
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+        with:
+          working_directory: build/Release
+          files: '*.dll'
+          generate_release_notes: true
+          name: "${{ github.sha }}"
+          target_commitish: "${{ github.sha }}"
+          make_latest: true
