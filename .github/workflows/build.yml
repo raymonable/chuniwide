@@ -3,9 +3,7 @@ name: build
 on:
   push:
     paths:
-      - '**.c'
-      - '**.h'
-      - '.github/workflows/build.yml'
+      - '**'
     branches:
       - master
   workflow_dispatch:
