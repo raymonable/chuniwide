@@ -27,16 +27,14 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'push'
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           working_directory: build/Release
           files: '*.dll'
-          generate_release_notes: true
           name: "${{ github.sha }}"
           target_commitish: "${{ github.sha }}"
-          tag: "${{ github.sha }}"
+          tag_name: "${{ github.sha }}"
           make_latest: true
+          generate_release_notes: true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v5
